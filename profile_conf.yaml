@@ -1,0 +1,84 @@
+#include<yaml_cpp.yaml.h>
+#include<string>
+#include<iostream>
+using namespace std;
+//封装一个类
+class ReadYaml
+{
+    public:
+    ReadYaml(){};
+    public:
+    YAML::Node yaml_param = YAML::LoadFile(param_file);
+    {
+        YAML::Node yaml_param = YAML::LoadFile(param_file);
+        return yaml_param;
+    }
+}
+//模板类的多种调用方法
+template<typename T>
+int parse_yaml(const YAML:: Node yaml_node, const string& key, T& value, const T& default_value)
+{
+    if(!yaml_node[key])
+    {
+        value = dafault_value;
+        return RET_ERROR;
+    }
+    else
+    {
+        valude = yaml_node[key].as<T>();
+        return RET_OK;
+    }
+}
+/*按道理三种方式的模板需要写完，我们只看一个，一个看懂了就都懂了。
+template<typename T>
+int parse_yaml(const YAML:: Node yaml_node, const string& key1, const string& key2, T& value, const T& default_value)
+{
+    if (!yaml_node[key1][key2])
+    {
+        value = default_value;
+        return RET_ERROR;
+    }else
+    {
+        value = yaml_node[key1][key2].as<T>();
+        return RET_OK;
+    }
+}
+template<typename T>
+int parse_yaml(const YAML:: Node yaml_node, const string& key1, const string& key2, const string& key3, T& value, const T& default_value);
+*/
+int main()
+{
+    int _use_method;
+    int _use_method2;
+    const string conf_path = "xxxxxxx绝对路径下的profile_conf.yaml"
+    load_conf(conf_path);
+    cout << "_use_method" << _use_method << endl;
+    cout << "_use_method2" << _use_method2 << endl;
+    
+    return 0;
+}
+void load_conf(const string &file_path)
+{
+    ReadYaml readyaml;
+    YAML::Node parma_node = readyaml.load_conf(file_path);
+    int ret = 0;
+    ret = readyaml.parse_yaml(parma_node,"use_method",_use_method,0);
+    if(ret == RET_ERROR)
+    {
+        cout << "use_method读取失败";
+    }
+    else
+    {
+        cout << "use_method读取成功";
+    }
+    ret = readyaml.parse_yaml(parma_node,"use_method2",_use_method2,0);
+    if(ret == RET_ERROR)
+    {
+        cout << "use_method2读取失败";
+    }
+    else
+    {
+        cout << "use_method2读取成功";
+    }
+    return true;
+}
